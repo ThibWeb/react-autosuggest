@@ -4,6 +4,7 @@ import reducer from './reducerAndActions';
 import Autosuggest from './Autosuggest';
 
 function noop() {}
+const returnTrue = () => true;
 
 const defaultTheme = {
   container: 'react-autosuggest__container',
@@ -91,12 +92,13 @@ export default class AutosuggestContainer extends Component {
     id: '1'
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { alwaysRenderSuggestions } = props;
 
     const initialState = {
       isFocused: false,
-      isCollapsed: true,
+      isCollapsed: !alwaysRenderSuggestions,
       focusedSectionIndex: null,
       focusedSuggestionIndex: null,
       valueBeforeUpDown: null,
@@ -122,7 +124,7 @@ export default class AutosuggestContainer extends Component {
 
     return (
       <Autosuggest multiSection={multiSection}
-                   shouldRenderSuggestions={shouldRenderSuggestions}
+                   shouldRenderSuggestions={alwaysRenderSuggestions ? returnTrue : shouldRenderSuggestions}
                    alwaysRenderSuggestions={alwaysRenderSuggestions}
                    suggestions={suggestions}
                    onSuggestionsUpdateRequested={onSuggestionsUpdateRequested}
